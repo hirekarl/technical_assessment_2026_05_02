@@ -32,8 +32,39 @@ export default function App() {
           </div>
         </main>
 
-        <footer className="mt-8 text-center text-xs text-slate-400">
+        <footer className="mt-8 space-y-1 text-center text-xs text-slate-400">
           <p>km ↔ mi · 1 mile = 1.60934 km</p>
+          <p>
+            Built by{' '}
+            <a
+              href="https://www.linkedin.com/in/hirekarl"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline hover:text-slate-600"
+            >
+              Karl Johnson
+            </a>
+            {' · '}
+            <a
+              href="https://github.com/hirekarl"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline hover:text-slate-600"
+            >
+              GitHub
+            </a>
+          </p>
+          <p>
+            <a
+              href="https://www.pursuit.org/ai-native-program"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline hover:text-slate-600"
+            >
+              Pursuit AI-Native Fellowship
+            </a>
+            {' · L1 Technical Assessment · March 2026'}
+          </p>
         </footer>
       </div>
     </div>

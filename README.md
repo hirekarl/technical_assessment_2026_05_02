@@ -2,7 +2,7 @@
 
 A fast, accessible, internationalized kilometer ↔ mile converter.
 
-**[Live Demo](https://konvertr.netlify.app)** · Built as a technical assessment response
+**[Live Demo](https://konvertr.netlify.app)** · Built by [Karl Johnson](https://www.linkedin.com/in/hirekarl) ([GitHub](https://github.com/hirekarl)) as an L1 technical assessment for the [Pursuit AI-Native Fellowship](https://www.pursuit.org/ai-native-program), March 2026
 
 ---
 
