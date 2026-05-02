@@ -1,5 +1,7 @@
 # Konvertr
 
+[![CI](https://github.com/hirekarl/technical_assessment_2026_05_02/actions/workflows/ci.yml/badge.svg)](https://github.com/hirekarl/technical_assessment_2026_05_02/actions/workflows/ci.yml)
+
 A fast, accessible, internationalized kilometer ↔ mile converter.
 
 **[Live Demo](https://konvertr.netlify.app)** · Built by [Karl Johnson](https://www.linkedin.com/in/hirekarl) ([GitHub](https://github.com/hirekarl)) as an L1 technical assessment for the [Pursuit AI-Native Fellowship](https://www.pursuit.org/ai-native-program), March 2026
