@@ -1,0 +1,30 @@
+{
+  "app": {
+    "title": "Konvertr",
+    "tagline": "Conversiones instantáneas de kilómetros y millas"
+  },
+  "form": {
+    "inputLabel": "Introduce un valor",
+    "inputPlaceholder": "ej. 100",
+    "directionLabel": "Dirección de conversión",
+    "resultLabel": "Resultado"
+  },
+  "units": {
+    "km": "kilómetro",
+    "km_plural": "kilómetros",
+    "mile": "milla",
+    "mile_plural": "millas"
+  },
+  "directions": {
+    "kmToMi": "Kilómetros → Millas",
+    "miToKm": "Millas → Kilómetros"
+  },
+  "result": {
+    "empty": "—",
+    "output": "{{value}} {{unit}}"
+  },
+  "language": {
+    "label": "Idioma",
+    "name": "Español"
+  }
+}

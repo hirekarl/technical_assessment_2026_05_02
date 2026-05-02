@@ -1,0 +1,30 @@
+{
+  "app": {
+    "title": "كونفرتر",
+    "tagline": "تحويل فوري بين الكيلومترات والأميال"
+  },
+  "form": {
+    "inputLabel": "أدخل قيمة",
+    "inputPlaceholder": "مثال: 100",
+    "directionLabel": "اتجاه التحويل",
+    "resultLabel": "النتيجة"
+  },
+  "units": {
+    "km": "كيلومتر",
+    "km_plural": "كيلومترات",
+    "mile": "ميل",
+    "mile_plural": "أميال"
+  },
+  "directions": {
+    "kmToMi": "كيلومترات ← أميال",
+    "miToKm": "أميال ← كيلومترات"
+  },
+  "result": {
+    "empty": "—",
+    "output": "{{value}} {{unit}}"
+  },
+  "language": {
+    "label": "اللغة",
+    "name": "العربية"
+  }
+}
