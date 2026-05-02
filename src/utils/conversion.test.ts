@@ -90,4 +90,20 @@ describe('formatResult', () => {
   it('handles negative values', () => {
     expect(formatResult(-62.1371)).toBe('-62.1371')
   })
+
+  it('rounds 5th decimal up correctly', () => {
+    expect(formatResult(1.23456)).toBe('1.2346')
+  })
+
+  it('returns "0" for values that round to zero', () => {
+    expect(formatResult(0.00004)).toBe('0')
+  })
+
+  it('handles Infinity', () => {
+    expect(formatResult(Infinity)).toBe('∞')
+  })
+
+  it('handles -Infinity', () => {
+    expect(formatResult(-Infinity)).toBe('-∞')
+  })
 })

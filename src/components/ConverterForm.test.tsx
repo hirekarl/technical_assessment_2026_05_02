@@ -28,6 +28,53 @@ describe('ConverterForm', () => {
     expect(screen.getByRole('status')).toHaveTextContent('—')
   })
 
+  it('shows em dash for non-finite input (Infinity)', () => {
+    renderWithI18n(<ConverterForm />)
+    // fireEvent bypasses type="number" sanitization to exercise the isFinite guard
+    fireEvent.change(screen.getByRole('spinbutton'), { target: { value: 'Infinity' } })
+    expect(screen.getByRole('status')).toHaveTextContent('—')
+  })
+
+  it('shows 0 result for input of 0', async () => {
+    const { user } = renderWithI18n(<ConverterForm />)
+    await user.type(screen.getByRole('spinbutton'), '0')
+    expect(screen.getByRole('status')).toHaveTextContent('0 miles')
+  })
+
+  it('converts negative km to negative miles', async () => {
+    const { user } = renderWithI18n(<ConverterForm />)
+    await user.type(screen.getByRole('spinbutton'), '-100')
+    expect(screen.getByRole('status')).toHaveTextContent('-62.1373')
+  })
+
+  it('uses singular "mile" for -1 km (negative singular)', async () => {
+    const { user } = renderWithI18n(<ConverterForm />)
+    await user.type(screen.getByRole('spinbutton'), '-1')
+    // Math.abs(-1) === 1, so singular unit applies
+    expect(screen.getByRole('status')).toHaveTextContent('-0.6214 mile')
+  })
+
+  it('converts decimal input correctly', async () => {
+    const { user } = renderWithI18n(<ConverterForm />)
+    await user.type(screen.getByRole('spinbutton'), '0.5')
+    expect(screen.getByRole('status')).toHaveTextContent('0.3107 miles')
+  })
+
+  it('formats large numbers with comma separators', async () => {
+    const { user } = renderWithI18n(<ConverterForm />)
+    await user.type(screen.getByRole('spinbutton'), '1000000')
+    expect(screen.getByRole('status')).toHaveTextContent('621,372.7366 miles')
+  })
+
+  it('returns to em dash after clearing a populated field', async () => {
+    const { user } = renderWithI18n(<ConverterForm />)
+    const input = screen.getByRole('spinbutton')
+    await user.type(input, '100')
+    expect(screen.getByRole('status')).toHaveTextContent('62.1373')
+    await user.clear(input)
+    expect(screen.getByRole('status')).toHaveTextContent('—')
+  })
+
   it('converts km to miles when direction is kmToMi', async () => {
     const { user } = renderWithI18n(<ConverterForm />)
     await user.type(screen.getByRole('spinbutton'), '100')

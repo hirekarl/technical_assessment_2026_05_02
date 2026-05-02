@@ -12,7 +12,7 @@ export default function ConverterForm() {
   const [direction, setDirection] = useState<ConversionDirection>('kmToMi')
 
   const numericValue = parseFloat(inputValue)
-  const isValid = inputValue !== '' && !isNaN(numericValue)
+  const isValid = inputValue !== '' && !isNaN(numericValue) && isFinite(numericValue)
   const resultValue = isValid ? convert(numericValue, direction) : null
   const formattedResult = resultValue !== null ? formatResult(resultValue) : null
 
