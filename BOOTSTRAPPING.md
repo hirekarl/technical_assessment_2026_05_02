@@ -11,3 +11,5 @@ In my last go at this assignment, I included geolocation-awareness to properly r
 Design branding and put together meta tags.
 
 We will deploy as a static site on Netlify.
+
+Put together a detailed README.md detailing the tech stack, our accessibility and code standards, and whatever else you think is germane.
