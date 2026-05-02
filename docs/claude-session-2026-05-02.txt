@@ -1,0 +1,781 @@
+╭─── Claude Code v2.1.123 ─────────────────────────────────────────────────────╮
+│                                                    │ Tips for getting        │
+│             Welcome back Karl Johnson!             │ started                 │
+│                                                    │ ✔ Run /init to create … │
+│                      ▗ ▗   ▖ ▖                     │ ─────────────────────── │
+│                                                    │ What's new              │
+│                        ▘▘ ▝▝                       │ The `/model` picker no… │
+│      Sonnet 4.6 · Claude Pro ·                     │ - Added `claude projec… │
+│      karl.saint.lucy@gmail.com's Organization      │ `--dangerously-skip-pe… │
+│  ~/Documents/pursuit/technical_assessment_20260502 │ /release-notes for more │
+╰──────────────────────────────────────────────────────────────────────────────╯
+
+✻ Conversation compacted (ctrl+o for history)
+
+  ⎿  Read src/components/ConverterForm.test.tsx (127 lines)
+  ⎿  Read src/utils/conversion.test.ts (110 lines)
+  ⎿  Read src/components/ConverterForm.tsx (46 lines)
+  ⎿  Read README.md (142 lines)
+  ⎿  Read index.html (36 lines)
+  ⎿  Plan file referenced (~/.claude/plans/kind-orbiting-salamander.md)
+  ⎿  Skills restored (init)
+
+⏺ Bash(npm run test:coverage 2>&1 | tail -30)
+  ⎿  (Use `node --trace-warnings ...` to show where the warning was created
+     )
+     (node:13240) Warning: `--localstorage-file` was provided without a val
+     … +24 lines (ctrl+o to expand)
+
+⏺ Yes — 83 tests, 9 test files, 100% across statements, branches, functions, and
+   lines (21/21 branches covered).
+
+✻ Churned for 2m 19s
+
+❯ Ok awesome, let's also implement dark mode.                                   
+
+⏺ Let me look at the current styling and component structure before deciding on
+  approach.
+
+  Searched for 1 pattern, read 7 files, listed 3 directories (ctrl+o to expand)
+
+⏺ Good, Tailwind v4.2.4. Let me read all locale files before writing any code.
+
+⏺ Bash(for f in en-GB es fr ar; do echo "=== $f ==="; cat
+      "/Users/karlsaintlucy/Documents/pursuit/technical_assessment_20260502/src/
+      i18n/locales/$f/translation.json";…)
+  ⎿  === en-GB ===
+     {
+       "app": {
+     … +38 lines (ctrl+o to expand)
+
+⏺ I have a complete picture. The implementation needs:
+  1. useTheme hook (localStorage + system preference init, applies .dark class
+  to <html>)
+  2. ThemeToggle component (sun/moon icon button)
+  3. @custom-variant dark in CSS (Tailwind v4 class-based dark mode)
+  4. dark: variants on all components
+  5. i18n keys for aria-labels
+  6. Full test coverage maintained at 100%
+
+  Let me implement everything now.
+
+⏺ Write(src/test-setup.ts)
+  ⎿  Added 15 lines
+       1  import '@testing-library/jest-dom'
+       2 +import { vi } from 'vitest'                                    
+       3 +                                                               
+       4 +Object.defineProperty(window, 'matchMedia', {                  
+       5 +  writable: true,                                              
+       6 +  value: vi.fn((query: string) => ({                           
+       7 +    matches: false,                                            
+       8 +    media: query,                                              
+       9 +    onchange: null,                                            
+      10 +    addListener: vi.fn(),                                      
+      11 +    removeListener: vi.fn(),                                   
+      12 +    addEventListener: vi.fn(),                                 
+      13 +    removeEventListener: vi.fn(),                              
+      14 +    dispatchEvent: vi.fn(),                                    
+      15 +  })),                                                         
+      16 +})                                                             
+
+❯ Whenever you're ready, we have a build problem with Netlify: 12:35:59 PM: build-image version: ac6eb13fbf000e5c09ad677efd8b7c3c2d0142b6 (noble-new-builds) 
+  12:35:59 PM: buildbot version: 1e1f172b82fc46a7a7b4b14d04d14163b44b9b01                                                                                    
+  12:35:59 PM: Fetching cached dependencies                                                                                                                  
+  12:35:59 PM: Failed to fetch cache, continuing with build                                                                                                  
+  12:35:59 PM: Starting to prepare the repo for build                                                                                                        
+  12:35:59 PM: No cached dependencies found. Cloning fresh repo                                                                                              
+  12:35:59 PM: git clone --filter=blob:none https://github.com/hirekarl/technical_assessment_2026_05_02                                                      
+  12:35:59 PM: Preparing Git Reference refs/heads/main                                                                                                       
+  12:36:00 PM: Installing dependencies                                                                                                                       
+  12:36:00 PM: mise ~/.config/mise/config.toml tools: python@3.14.3                                                                                          
+  12:36:00 PM: mise ~/.config/mise/config.toml tools: ruby@3.4.8                                                                                             
+  12:36:01 PM: mise ~/.config/mise/config.toml tools: go@1.26.2                                                                                              
+  12:36:01 PM: v22.22.2 is already installed.                                                                                                                
+  12:36:01 PM: Now using node v22.22.2 (npm v10.9.7)                                                                                                         
+  12:36:01 PM: Enabling Node.js Corepack                                                                                                                     
+  12:36:02 PM: No npm workspaces detected                                                                                                                    
+  12:36:02 PM: Installing npm packages using npm version 10.9.7                                                                                              
+  12:36:02 PM: npm error code ERESOLVE                                                                                                                       
+  12:36:02 PM: npm error ERESOLVE could not resolve                                                                                                          
+  12:36:02 PM: npm error                                                                                                                                     
+  12:36:02 PM: npm error While resolving: eslint-plugin-jsx-a11y@6.10.2                                                                                      
+  12:36:02 PM: npm error Found: eslint@10.3.0                                                                                                                
+  12:36:02 PM: npm error node_modules/eslint                                                                                                                 
+  12:36:02 PM: npm error   dev eslint@"^10.2.1" from the root project                                                                                        
+  12:36:02 PM: npm error   peer eslint@"^6.0.0 || ^7.0.0 || >=8.0.0" from @eslint-community/eslint-utils@4.9.1                                               
+  12:36:02 PM: npm error   node_modules/@eslint-community/eslint-utils                                                                                       
+  12:36:02 PM: npm error     @eslint-community/eslint-utils@"^4.9.1" from @typescript-eslint/utils@8.59.1                                                    
+  12:36:02 PM: npm error     node_modules/@typescript-eslint/utils                                                                                           
+  12:36:02 PM: npm error       @typescript-eslint/utils@"8.59.1" from @typescript-eslint/eslint-plugin@8.59.1                                                
+  12:36:02 PM: npm error       node_modules/@typescript-eslint/eslint-plugin                                                                                 
+  12:36:02 PM: npm error         @typescript-eslint/eslint-plugin@"8.59.1" from typescript-eslint@8.59.1                                                     
+  12:36:02 PM: npm error         node_modules/typescript-eslint                                                                                              
+  12:36:02 PM: npm error       2 more (@typescript-eslint/type-utils, typescript-eslint)                                                                     
+  12:36:02 PM: npm error     @eslint-community/eslint-utils@"^4.8.0" from eslint@10.3.0                                                                      
+  12:36:02 PM: npm error   8 more (@eslint/js, @typescript-eslint/eslint-plugin, ...)                                                                        
+  12:36:02 PM: npm error                                                                                                                                     
+  12:36:02 PM: npm error Could not resolve dependency:                                                                                                       
+  12:36:02 PM: npm error peer eslint@"^3 || ^4 || ^5 || ^6 || ^7 || ^8 || ^9" from eslint-plugin-jsx-a11y@6.10.2                                             
+  12:36:02 PM: npm error node_modules/eslint-plugin-jsx-a11y                                                                                                 
+  12:36:02 PM: npm error   dev eslint-plugin-jsx-a11y@"^6.10.2" from the root project                                                                        
+  12:36:02 PM: npm error                                                                                                                                     
+  12:36:02 PM: npm error Conflicting peer dependency: eslint@9.39.4                                                                                          
+  12:36:02 PM: npm error node_modules/eslint                                                                                                                 
+  12:36:02 PM: npm error   peer eslint@"^3 || ^4 || ^5 || ^6 || ^7 || ^8 || ^9" from eslint-plugin-jsx-a11y@6.10.2                                           
+  12:36:02 PM: npm error   node_modules/eslint-plugin-jsx-a11y                                                                                               
+  12:36:02 PM: npm error     dev eslint-plugin-jsx-a11y@"^6.10.2" from the root project                                                                      
+  12:36:02 PM: npm error                                                                                                                                     
+  12:36:02 PM: npm error Fix the upstream dependency conflict, or retry                                                                                      
+  12:36:02 PM: npm error this command with --force or --legacy-peer-deps                                                                                     
+  12:36:02 PM: npm error to accept an incorrect (and potentially broken) dependency resolution.                                                              
+  12:36:02 PM: npm error                                                                                                                                     
+  12:36:02 PM: npm error                                                                                                                                     
+  12:36:02 PM: npm error For a full report see:                                                                                                              
+  12:36:02 PM: npm error /opt/buildhome/.npm/_logs/2026-05-02T16_36_02_108Z-eresolve-report.txt                                                              
+  12:36:02 PM: npm error A complete log of this run can be found in: /opt/buildhome/.npm/_logs/2026-05-02T16_36_02_108Z-debug-0.log                          
+  12:36:02 PM: Error during npm install                                                                                                                      
+  12:36:02 PM: Failing build: Failed to install dependencies                                                                                                 
+  12:36:02 PM: Failed during stage 'Install dependencies': dependency_installation script returned non-zero exit code: 1                                     
+
+⏺ I'll address the Netlify issue right after finishing this implementation.
+  Continuing with dark mode — writing all files now.
+
+⏺ Bash(mkdir -p /Users/karlsaintlucy/Documents/pursuit/technical_assessment_2026
+      0502/src/hooks)
+  ⎿  Done
+
+⏺ Write(src/hooks/useTheme.ts)
+  ⎿  Wrote 24 lines to src/hooks/useTheme.ts
+       2 import { useState, useEffect } from 'react'
+       3 export type Theme = 'light' | 'dark'
+       4 
+       5 const STORAGE_KEY = 'konvertr-theme'
+       6 
+       7 function getInitialTheme(): Theme {
+       8   const stored = localStorage.getItem(STORAGE_KEY)
+       9   if (stored === 'light' || stored === 'dark') return stored
+      10   return window.matchMedia('(prefers-color-scheme: dark)').match
+         es ? 'dark' : 'light'
+     … +17 lines (ctrl+o to expand)
+
+⏺ Write(src/hooks/useTheme.test.ts)
+  ⎿  Wrote 85 lines to src/hooks/useTheme.test.ts
+       1 import { renderHook, act } from '@testing-library/react'
+       2 import { describe, it, expect, vi, beforeEach } from 'vitest'
+       3 import { useTheme } from './useTheme'
+       4 
+       5 const mockMatchMedia = (matches: boolean) => {
+       6   window.matchMedia = vi.fn().mockReturnValue({
+       7     matches,
+       8     media: '',
+       9     onchange: null,
+      10     addListener: vi.fn(),
+     … +82 lines (ctrl+o to expand)
+
+⏺ Write(src/components/ThemeToggle.tsx)
+  ⎿  Wrote 54 lines to src/components/ThemeToggle.tsx
+       1 import { useTranslation } from 'react-i18next'
+       2 import type { Theme } from '@/hooks/useTheme'
+       3 
+       4 interface ThemeToggleProps {
+       5   theme: Theme
+       6   onToggle: () => void
+       7 }
+       8 
+       9 function SunIcon() {
+      10   return (
+     … +61 lines (ctrl+o to expand)
+
+⏺ Write(src/components/ThemeToggle.test.tsx)  ⎿  Wrote 45 lines to src/components/ThemeToggle.test.tsx
+       1 import { describe, it, expect, vi, beforeEach } from 'vitest'
+       2 import { screen, fireEvent } from '@testing-library/react'
+       3 import axe from 'axe-core'
+       4 import ThemeToggle from './ThemeToggle'
+       5 import { renderWithI18n, i18n } from '@/test-utils'
+       6 
+       7 describe('ThemeToggle', () => {
+       8   beforeEach(async () => {
+       9     await i18n.changeLanguage('en')
+      10   })
+     … +42 lines (ctrl+o to expand)
+
+⏺ Now update all locale files to add the theme keys, and update the CSS and
+  components in parallel.
+
+⏺ Write(src/i18n/locales/en/translation.json)
+  ⎿  Added 4 lines
+      26    "language": {
+      27      "label": "Language",
+      28      "name": "English (US)"
+      29 +  },                                                           
+      30 +  "theme": {                                                   
+      31 +    "switchToDark": "Switch to dark mode",                     
+      32 +    "switchToLight": "Switch to light mode"                    
+      33    }
+      34  }
+
+⏺ Write(src/i18n/locales/en-GB/translation.json)
+  ⎿  Error writing file
+
+⏺ Write(src/i18n/locales/es/translation.json)
+  ⎿  Error writing file
+
+⏺ Write(src/i18n/locales/fr/translation.json)
+  ⎿  Error writing file
+
+⏺ Write(src/i18n/locales/ar/translation.json)
+  ⎿  Error writing file
+
+⏺ I'll use Edit to add the theme keys to the files I haven't formally Read yet.
+
+⏺ Update(src/i18n/locales/en-GB/translation.json)
+  ⎿  File must be read first
+
+⏺ Update(src/i18n/locales/es/translation.json)
+  ⎿  File must be read first
+
+⏺ Update(src/i18n/locales/fr/translation.json)
+  ⎿  File must be read first
+
+⏺ Update(src/i18n/locales/ar/translation.json)
+  ⎿  File must be read first
+
+  Read 4 files (ctrl+o to expand)
+
+⏺ Update(src/i18n/locales/en-GB/translation.json)
+  ⎿  Added 4 lines
+      26    "language": {
+      27      "label": "Language",
+      28      "name": "English (UK)"
+      29 +  },                                                           
+      30 +  "theme": {                                                   
+      31 +    "switchToDark": "Switch to dark mode",                     
+      32 +    "switchToLight": "Switch to light mode"                    
+      33    }
+      34  }
+
+⏺ Update(src/i18n/locales/es/translation.json)
+  ⎿  Added 4 lines
+      26    "language": {
+      27      "label": "Idioma",
+      28      "name": "Español"
+      29 +  },                                                           
+      30 +  "theme": {                                                   
+      31 +    "switchToDark": "Cambiar al modo oscuro",                  
+      32 +    "switchToLight": "Cambiar al modo claro"                   
+      33    }
+      34  }
+
+⏺ Update(src/i18n/locales/fr/translation.json)
+  ⎿  Added 4 lines
+      26    "language": {
+      27      "label": "Langue",
+      28      "name": "Français"
+      29 +  },                                                           
+      30 +  "theme": {                                                   
+      31 +    "switchToDark": "Passer en mode sombre",                   
+      32 +    "switchToLight": "Passer en mode clair"                    
+      33    }
+      34  }
+
+⏺ Update(src/i18n/locales/ar/translation.json)
+  ⎿  Added 4 lines
+      26    "language": {
+      27      "label": "اللغة",
+      28      "name": "العربية"
+      29 +  },                                                           
+      30 +  "theme": {                                                   
+      31 +    "switchToDark": "التبديل إلى الوضع المظلم",                
+      32 +    "switchToLight": "التبديل إلى الوضع الفاتح"                
+      33    }
+      34  }
+
+⏺ Now update the CSS and all the components:
+
+⏺ Write(src/index.css)
+  ⎿  Added 7 lines, removed 1 line
+       1  @import 'tailwindcss';
+       2  
+       3 +@custom-variant dark (&:where(.dark, .dark *));                
+       4 +                                                               
+       5  @layer base {
+       6    :root {
+       7      color-scheme: light;
+       8    }
+       9  
+      10 +  .dark {                                                      
+      11 +    color-scheme: dark;                                        
+      12 +  }                                                            
+      13 +                                                               
+      14    html {
+      15      @apply antialiased;
+      16    }
+      17  
+      18    body {
+      13 -    @apply bg-slate-50 text-slate-800;                         
+      19 +    @apply bg-slate-50 text-slate-800 dark:bg-slate-950 dark:te
+         +xt-slate-100;                                                  
+      20    }
+      21  }
+
+⏺ Update(src/App.tsx)
+  ⎿  Added 17 lines, removed 9 lines
+       2  import { useTranslation } from 'react-i18next'
+       3  import ConverterForm from './components/ConverterForm'
+       4  import LanguageSwitcher from './components/LanguageSwitcher'
+       5 +import ThemeToggle from './components/ThemeToggle'             
+       6 +import { useTheme } from './hooks/useTheme'                    
+       7  import { RTL_LOCALES } from './types'
+       8  import type { LocaleCode } from './types'
+       9  
+      10  export default function App() {
+      11    const { t, i18n } = useTranslation()
+      12    const currentLocale = i18n.language as LocaleCode
+      13 +  const { theme, toggle } = useTheme()                         
+      14  
+      15    useEffect(() => {
+      16      const isRtl = RTL_LOCALES.includes(currentLocale)
+     ...
+      19    }, [currentLocale])
+      20  
+      21    return (
+      19 -    <div className="min-h-screen bg-gradient-to-br from-slate-5
+         -0 to-indigo-50 px-4 py-8">                                     
+      22 +    <div className="min-h-screen bg-gradient-to-br from-slate-5
+         +0 to-indigo-50 px-4 py-8 dark:from-slate-950 dark:to-indigo-950
+         +">                                                             
+      23        <div className="mx-auto w-full max-w-md">
+      24          <header className="mb-8 flex items-start justify-betwee
+          n gap-4">
+      25            <div>
+      23 -            <h1 className="text-3xl font-bold tracking-tight te
+         -xt-indigo-700">{t('app.title')}</h1>                           
+      24 -            <p className="mt-1 text-sm text-slate-500">{t('app.
+         -tagline')}</p>                                                 
+      26 +            <h1 className="text-3xl font-bold tracking-tight te
+         +xt-indigo-700 dark:text-indigo-400">                           
+      27 +              {t('app.title')}                                 
+      28 +            </h1>                                              
+      29 +            <p className="mt-1 text-sm text-slate-500 dark:text
+         +-slate-400">{t('app.tagline')}</p>                             
+      30            </div>
+      26 -          <LanguageSwitcher />                                 
+      31 +          <div className="flex items-center gap-2">            
+      32 +            <ThemeToggle theme={theme} onToggle={toggle} />    
+      33 +            <LanguageSwitcher />                               
+      34 +          </div>                                               
+      35          </header>
+      36  
+      37          <main>
+      30 -          <div className="rounded-2xl border border-slate-200 b
+         -g-white p-6 shadow-sm">                                        
+      38 +          <div className="rounded-2xl border border-slate-200 b
+         +g-white p-6 shadow-sm dark:border-slate-700 dark:bg-slate-800">
+      39              <ConverterForm />
+      40            </div>
+      41          </main>
+      42  
+      35 -        <footer className="mt-8 space-y-1 text-center text-xs t
+         -ext-slate-400">                                                
+      43 +        <footer className="mt-8 space-y-1 text-center text-xs t
+         +ext-slate-400 dark:text-slate-500">                            
+      44            <p>km ↔ mi · 1 mile = 1.60934 km</p>
+      45            <p>
+      46              Built by{' '}
+     ...
+      48                href="https://www.linkedin.com/in/hirekarl"
+      49                target="_blank"
+      50                rel="noopener noreferrer"
+      43 -              className="underline hover:text-slate-600"       
+      51 +              className="underline hover:text-slate-600 dark:ho
+         +ver:text-slate-300"                                            
+      52              >
+      53                Karl Johnson
+      54              </a>
+     ...
+      57                href="https://github.com/hirekarl"
+      58                target="_blank"
+      59                rel="noopener noreferrer"
+      52 -              className="underline hover:text-slate-600"       
+      60 +              className="underline hover:text-slate-600 dark:ho
+         +ver:text-slate-300"                                            
+      61              >
+      62                GitHub
+      63              </a>
+     ...
+      67                href="https://www.pursuit.org/ai-native-program"
+      68                target="_blank"
+      69                rel="noopener noreferrer"
+      62 -              className="underline hover:text-slate-600"       
+      70 +              className="underline hover:text-slate-600 dark:ho
+         +ver:text-slate-300"                                            
+      71              >
+      72                Pursuit AI-Native Fellowship
+      73              </a>
+
+⏺ Now update the remaining components with dark: variants:
+
+⏺ Update(src/components/NumberInput.tsx)
+  ⎿  File must be read first
+
+⏺ Update(src/components/DirectionToggle.tsx)  ⎿  File must be read first
+
+⏺ Update(src/components/ConversionResult.tsx)
+  ⎿  File must be read first
+
+⏺ Update(src/components/LanguageSwitcher.tsx)
+  ⎿  File must be read first
+
+⏺ The component reads from the session summary don't count — I need to formally
+  Read them again.
+
+  Read 4 files (ctrl+o to expand)
+
+⏺ Update(src/components/NumberInput.tsx)
+  ⎿  Added 2 lines, removed 1 line
+      14  
+      15      return (
+      16        <div className="flex flex-col gap-1.5">
+      17 -        <label htmlFor={id} className="text-sm font-medium text
+         --slate-700">                                                   
+      17 +        <label htmlFor={id} className="text-sm font-medium text
+         +-slate-700 dark:text-slate-200">                               
+      18            {label}
+      19          </label>
+      20          <input
+     ...
+      29            className="w-full rounded-lg border border-slate-300 
+          bg-white px-4 py-3 text-lg text-slate-900
+      30              placeholder:text-slate-400
+      31              focus:border-indigo-500 focus:ring-2 focus:ring-ind
+          igo-500/20 focus:outline-none
+      32 +            dark:border-slate-600 dark:bg-slate-900 dark:text-s
+         +late-100 dark:placeholder:text-slate-500                       
+      33              [appearance:textfield] [&::-webkit-inner-spin-butto
+          n]:appearance-none [&::-webkit-outer-spin-button]:appearance-no
+          ne"
+      34          />
+      35        </div>
+
+⏺ Update(src/components/DirectionToggle.tsx)
+  ⎿  Added 2 lines, removed 2 lines
+      13  
+      14    return (
+      15      <fieldset>
+      16 -      <legend className="mb-2 text-sm font-medium text-slate-70
+         -0">                                                            
+      16 +      <legend className="mb-2 text-sm font-medium text-slate-70
+         +0 dark:text-slate-200">                                        
+      17          {t('form.directionLabel')}
+      18        </legend>
+      19        <div className="flex gap-2">
+     ...
+      24                ${
+      25                  value === dir
+      26                    ? 'border-indigo-600 bg-indigo-600 text-white
+          '
+      27 -                  : 'border-slate-300 bg-white text-slate-700 h
+         -over:border-indigo-300 hover:bg-indigo-50'                     
+      27 +                  : 'border-slate-300 bg-white text-slate-700 h
+         +over:border-indigo-300 hover:bg-indigo-50 dark:border-slate-600
+         + dark:bg-slate-800 dark:text-slate-200 dark:hover:border-indigo
+         +-400 dark:hover:bg-indigo-950'                                 
+      28                }`}
+      29            >
+      30              <input
+
+⏺ Update(src/components/ConversionResult.tsx)
+  ⎿  Added 3 lines, removed 3 lines
+      13      : t('result.empty')
+      14  
+      15    return (
+      16 -    <div className="rounded-lg border border-slate-200 bg-slate
+         --50 px-4 py-4">                                                
+      17 -      <p className="mb-1 text-xs font-medium uppercase tracking
+         --wider text-slate-500">                                        
+      16 +    <div className="rounded-lg border border-slate-200 bg-slate
+         +-50 px-4 py-4 dark:border-slate-700 dark:bg-slate-900">        
+      17 +      <p className="mb-1 text-xs font-medium uppercase tracking
+         +-wider text-slate-500 dark:text-slate-400">                    
+      18          {t('form.resultLabel')}
+      19        </p>
+      20        <output
+      21          aria-live="polite"
+      22          aria-atomic="true"
+      23 -        className="block text-2xl font-semibold text-indigo-700
+         -"                                                              
+      23 +        className="block text-2xl font-semibold text-indigo-700
+         + dark:text-indigo-400"                                         
+      24        >
+      25          {display}
+      26        </output>
+
+⏺ Update(src/components/LanguageSwitcher.tsx)
+  ⎿  Added 1 line
+      21          onChange={handleChange}
+      22          className="rounded-md border border-slate-300 bg-white 
+          py-1.5 ps-3 pe-8 text-sm text-slate-700
+      23            focus:border-indigo-500 focus:ring-2 focus:ring-indig
+          o-500/20 focus:outline-none
+      24 +          dark:border-slate-600 dark:bg-slate-800 dark:text-sla
+         +te-200                                                         
+      25            cursor-pointer"
+      26          aria-label={t('language.label')}
+      27        >
+
+⏺ Now update App.test.tsx to add cleanup and theme tests:
+
+⏺ Update(src/App.test.tsx)
+  ⎿  Added 2 lines
+      12    afterEach(() => {
+      13      document.documentElement.dir = 'ltr'
+      14      document.documentElement.lang = 'en'
+      15 +    document.documentElement.classList.remove('dark')          
+      16 +    localStorage.clear()                                       
+      17    })
+      18  
+      19    it('renders the app title', () => {
+
+⏺ Update(src/App.test.tsx)
+  ⎿  Added 18 lines
+      54      expect(document.documentElement.lang).toBe('fr')
+      55    })
+      56  
+      57 +  it('renders the theme toggle button', () => {                
+      58 +    renderWithI18n(<App />)                                    
+      59 +    expect(screen.getByRole('button', { name: /switch to dark m
+         +ode/i })).toBeInTheDocument()                                  
+      60 +  })                                                           
+      61 +                                                               
+      62 +  it('clicking theme toggle applies dark mode', async () => {  
+      63 +    const { user } = renderWithI18n(<App />)                   
+      64 +    await user.click(screen.getByRole('button', { name: /switch
+         + to dark mode/i }))                                            
+      65 +    expect(document.documentElement.classList.contains('dark'))
+         +.toBe(true)                                                    
+      66 +  })                                                           
+      67 +                                                               
+      68 +  it('clicking theme toggle twice returns to light mode', async
+         + () => {                                                       
+      69 +    const { user } = renderWithI18n(<App />)                   
+      70 +    await user.click(screen.getByRole('button', { name: /switch
+         + to dark mode/i }))                                            
+      71 +    await user.click(screen.getByRole('button', { name: /switch
+         + to light mode/i }))                                           
+      72 +    expect(document.documentElement.classList.contains('dark'))
+         +.toBe(false)                                                   
+      73 +  })                                                           
+      74 +                                                               
+      75    it('has no accessibility violations', async () => {
+      76      const { container } = renderWithI18n(<App />)
+      77      const results = await axe.run(container)
+
+⏺ Now create the .npmrc to fix the Netlify build, and run the tests:
+
+  Listed 1 directory (ctrl+o to expand)
+
+⏺ Bash(echo "legacy-peer-deps=true" > /Users/karlsaintlucy/Documents/pursuit/tec
+      hnical_assessment_20260502/.npmrc)
+  ⎿  (No output)
+
+⏺ Bash(npm run test:coverage 2>&1 | tail -50)
+  ⎿  ⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/31]⎯
+
+      FAIL  src/App.test.tsx > App > renders the app title
+     … +33 lines (ctrl+o to expand)
+  ⎿  (timeout 2m)
+
+⏺ localStorage.clear is missing in this jsdom build. I'll switch to targeted
+  removeItem calls.
+
+⏺ Update(src/hooks/useTheme.test.ts)
+  ⎿  Added 1 line, removed 1 line
+      17  
+      18  describe('useTheme', () => {
+      19    beforeEach(() => {
+      20 -    localStorage.clear()                                       
+      20 +    localStorage.removeItem('konvertr-theme')                  
+      21      document.documentElement.classList.remove('dark')
+      22      mockMatchMedia(false)
+      23    })
+
+⏺ Update(src/App.test.tsx)
+  ⎿  Added 1 line, removed 1 line
+      13      document.documentElement.dir = 'ltr'
+      14      document.documentElement.lang = 'en'
+      15      document.documentElement.classList.remove('dark')
+      16 -    localStorage.clear()                                       
+      16 +    localStorage.removeItem('konvertr-theme')                  
+      17    })
+      18  
+      19    it('renders the app title', () => {
+
+⏺ Bash(npm run test:coverage 2>&1 | tail -40)
+  ⎿   FAIL  src/App.test.tsx > App > clicking theme toggle applies dark mod
+     e
+      FAIL  src/App.test.tsx > App > clicking theme toggle twice returns to
+     … +26 lines (ctrl+o to expand)
+  ⎿  (timeout 2m)
+
+⏺ removeItem is also missing. jsdom's localStorage is incomplete — I need to add
+   a full mock in test-setup.ts.
+
+⏺ Write(src/test-setup.ts)
+  ⎿  Added 21 lines
+       1  import '@testing-library/jest-dom'
+       2  import { vi } from 'vitest'
+       3  
+       4 +// jsdom's localStorage implementation is incomplete; provide a
+         + full mock                                                     
+       5 +const localStorageData: Record<string, string> = {}            
+       6 +vi.stubGlobal('localStorage', {                                
+       7 +  getItem: (key: string) => localStorageData[key] ?? null,     
+       8 +  setItem: (key: string, value: string) => {                   
+       9 +    localStorageData[key] = value                              
+      10 +  },                                                           
+      11 +  removeItem: (key: string) => {                               
+      12 +    delete localStorageData[key]                               
+      13 +  },                                                           
+      14 +  clear: () => {                                               
+      15 +    Object.keys(localStorageData).forEach((k) => {             
+      16 +      delete localStorageData[k]                               
+      17 +    })                                                         
+      18 +  },                                                           
+      19 +  get length() {                                               
+      20 +    return Object.keys(localStorageData).length                
+      21 +  },                                                           
+      22 +  key: (index: number) => Object.keys(localStorageData)[index] 
+         +?? null,                                                       
+      23 +})                                                             
+      24 +                                                               
+      25  Object.defineProperty(window, 'matchMedia', {
+      26    writable: true,
+      27    value: vi.fn((query: string) => ({
+
+⏺ Bash(npm run test:coverage 2>&1 | tail -50)  ⎿  > konvertr@0.0.0 test:coverage
+     > vitest run --coverage
+     … +22 lines (ctrl+o to expand)
+  ⎿  (timeout 2m)
+
+⏺ 101 tests, 11 test files, 100% coverage. Now let me also run typecheck and
+  lint to make sure everything is clean before committing.
+
+⏺ Bash(npm run typecheck 2>&1 && echo "TYPECHECK OK")
+  ⎿  > konvertr@0.0.0 typecheck
+     > tsc -b
+
+     TYPECHECK OK
+
+⏺ Bash(npm run lint 2>&1 && echo "LINT OK")
+  ⎿  > konvertr@0.0.0 lint
+     > eslint . --max-warnings=0
+
+     LINT OK
+  ⎿  (timeout 1m)
+
+⏺ Clean. Let me commit both changes together.
+
+⏺ Bash(git status && git diff --stat)
+  ⎿  On branch main
+     Your branch is ahead of 'origin/main' by 1 commit.
+       (use "git push" to publish your local commits)
+     … +24 lines (ctrl+o to expand)
+
+⏺ Bash(git add src/App.test.tsx src/App.tsx src/components/ConversionResult.tsx
+      src/components/DirectionToggle.tsx src/components/LanguageSwitcher.tsx
+      src/components/N…)
+  ⎿  [STARTED] Backing up original state...
+     [COMPLETED] Backed up original state in git stash (1b38e9d)
+     [STARTED] Running tasks for staged files...
+     … +22 lines (ctrl+o to expand)
+
+⏺ Committed. Let me push both the edge case commit from last session and this
+  one.
+
+⏺ Bash(git log --oneline -5)
+  ⎿  a738260 Add dark mode with system preference detection and manual togg
+     le.
+     592994d Add edge case coverage and fix Infinity validity bug.
+     … +4 lines (ctrl+o to expand)
+
+⏺ Two unpushed commits. Want me to push them?
+
+  Here's a summary of everything that just landed:
+
+  Dark mode (a738260):
+  - useTheme hook — detects system preference (prefers-color-scheme),
+  reads/writes localStorage under konvertr-theme, applies .dark class to <html>
+  - ThemeToggle component — sun/moon icon button with localized aria-labels in
+  all 5 languages
+  - @custom-variant dark in index.css — enables Tailwind's class-based dark:
+  variant (Tailwind v4 syntax)
+  - dark: variants on every component: background, text, border, input, and
+  button states
+  - 101 tests, 100% coverage
+
+  Netlify fix (included in same commit):
+  - Added .npmrc with legacy-peer-deps=true — that's the exact same flag we use
+  locally; Netlify's npm was failing because eslint-plugin-jsx-a11y doesn't
+  declare ESLint 10 as a peer dep. This should fix the build on the next push.
+
+✻ Cooked for 10m 53s
+
+❯ Great, push.                                                                  
+
+⏺ Bash(git push)
+  ⎿  To https://github.com/hirekarl/technical_assessment_2026_05_02.git
+        045bcd4..a738260  main -> main
+
+⏺ Pushed. Both commits are live — the Netlify build should trigger automatically
+   and succeed this time.
+
+✻ Cogitated for 5s
+
+❯ Ok great. The app is deployed at https://konvertr.netlify.app/. Let's make    
+  sure the deployed app is linked in the README. Let's also take a screenshot   
+  of the app with Playwright and add that to the README as a preview.           
+
+⏺ Let me check the README first, then use Playwright to capture the screenshot.
+
+  Read 1 file (ctrl+o to expand)
+
+⏺ The live demo link is already there on line 7. Now let me navigate to the app
+  and take the screenshot.
+
+  Called plugin:playwright:playwright 2 times (ctrl+o to expand)
+
+⏺ Bash(mkdir -p
+      /Users/karlsaintlucy/Documents/pursuit/technical_assessment_20260502/docs)
+  ⎿  Done
+
+  Called plugin:playwright:playwright (ctrl+o to expand)
+
+⏺ App is live and looking great. Now add the screenshot to the README between
+  the attribution line and the first ---.
+
+⏺ Update(README.md)
+  ⎿  Added 2 lines
+       6  
+       7  **[Live Demo](https://konvertr.netlify.app)** · Built by [Karl 
+          Johnson](https://www.linkedin.com/in/hirekarl) ([GitHub](https:
+          //github.com/hirekarl)) as an L1 technical assessment for the [
+          Pursuit AI-Native Fellowship](https://www.pursuit.org/ai-native
+          -program), March 2026
+       8  
+       9 +![Konvertr preview](docs/preview.png)                          
+      10 +                                                               
+      11  ---
+      12  
+      13  ## Tech Stack
+
+⏺ Bash(git add docs/preview.png README.md && git commit -m "$(cat <<'EOF'
+      Add screenshot preview to README.…)
+  ⎿  [STARTED] Backing up original state...
+     [COMPLETED] Backed up original state in git stash (0c0b2f2)
+     [STARTED] Running tasks for staged files...
+     … +21 lines (ctrl+o to expand)
+
+⏺ Done. The live demo link was already in the README — I added the screenshot
+  right below it. The image is committed to docs/preview.png and pushed. It'll
+  render on the GitHub repo page immediately.
+✻ Churned for 1m 6s
