@@ -21,6 +21,7 @@ export default function LanguageSwitcher() {
         onChange={handleChange}
         className="rounded-md border border-slate-300 bg-white py-1.5 ps-3 pe-8 text-sm text-slate-700
           focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none
+          dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200
           cursor-pointer"
         aria-label={t('language.label')}
       >

@@ -26,5 +26,9 @@
   "language": {
     "label": "اللغة",
     "name": "العربية"
+  },
+  "theme": {
+    "switchToDark": "التبديل إلى الوضع المظلم",
+    "switchToLight": "التبديل إلى الوضع الفاتح"
   }
 }

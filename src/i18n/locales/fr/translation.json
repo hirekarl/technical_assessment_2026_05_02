@@ -26,5 +26,9 @@
   "language": {
     "label": "Langue",
     "name": "Français"
+  },
+  "theme": {
+    "switchToDark": "Passer en mode sombre",
+    "switchToLight": "Passer en mode clair"
   }
 }

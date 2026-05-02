@@ -1,8 +1,14 @@
 @import 'tailwindcss';
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @layer base {
   :root {
     color-scheme: light;
+  }
+
+  .dark {
+    color-scheme: dark;
   }
 
   html {
@@ -10,6 +16,6 @@
   }
 
   body {
-    @apply bg-slate-50 text-slate-800;
+    @apply bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100;
   }
 }

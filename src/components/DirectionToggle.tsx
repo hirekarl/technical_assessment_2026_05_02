@@ -13,7 +13,7 @@ export default function DirectionToggle({ value, onChange }: DirectionToggleProp
 
   return (
     <fieldset>
-      <legend className="mb-2 text-sm font-medium text-slate-700">
+      <legend className="mb-2 text-sm font-medium text-slate-700 dark:text-slate-200">
         {t('form.directionLabel')}
       </legend>
       <div className="flex gap-2">
@@ -24,7 +24,7 @@ export default function DirectionToggle({ value, onChange }: DirectionToggleProp
               ${
                 value === dir
                   ? 'border-indigo-600 bg-indigo-600 text-white'
-                  : 'border-slate-300 bg-white text-slate-700 hover:border-indigo-300 hover:bg-indigo-50'
+                  : 'border-slate-300 bg-white text-slate-700 hover:border-indigo-300 hover:bg-indigo-50 dark:border-slate-600 dark:bg-slate-800 dark:text-slate-200 dark:hover:border-indigo-400 dark:hover:bg-indigo-950'
               }`}
           >
             <input

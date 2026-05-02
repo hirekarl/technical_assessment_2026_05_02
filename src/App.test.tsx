@@ -12,6 +12,8 @@ describe('App', () => {
   afterEach(() => {
     document.documentElement.dir = 'ltr'
     document.documentElement.lang = 'en'
+    document.documentElement.classList.remove('dark')
+    localStorage.removeItem('konvertr-theme')
   })
 
   it('renders the app title', () => {
@@ -50,6 +52,24 @@ describe('App', () => {
     renderWithI18n(<App />)
     await i18n.changeLanguage('fr')
     expect(document.documentElement.lang).toBe('fr')
+  })
+
+  it('renders the theme toggle button', () => {
+    renderWithI18n(<App />)
+    expect(screen.getByRole('button', { name: /switch to dark mode/i })).toBeInTheDocument()
+  })
+
+  it('clicking theme toggle applies dark mode', async () => {
+    const { user } = renderWithI18n(<App />)
+    await user.click(screen.getByRole('button', { name: /switch to dark mode/i }))
+    expect(document.documentElement.classList.contains('dark')).toBe(true)
+  })
+
+  it('clicking theme toggle twice returns to light mode', async () => {
+    const { user } = renderWithI18n(<App />)
+    await user.click(screen.getByRole('button', { name: /switch to dark mode/i }))
+    await user.click(screen.getByRole('button', { name: /switch to light mode/i }))
+    expect(document.documentElement.classList.contains('dark')).toBe(false)
   })
 
   it('has no accessibility violations', async () => {

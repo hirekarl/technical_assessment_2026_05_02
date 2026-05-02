@@ -14,7 +14,7 @@ const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
 
     return (
       <div className="flex flex-col gap-1.5">
-        <label htmlFor={id} className="text-sm font-medium text-slate-700">
+        <label htmlFor={id} className="text-sm font-medium text-slate-700 dark:text-slate-200">
           {label}
         </label>
         <input
@@ -29,6 +29,7 @@ const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
           className="w-full rounded-lg border border-slate-300 bg-white px-4 py-3 text-lg text-slate-900
             placeholder:text-slate-400
             focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 focus:outline-none
+            dark:border-slate-600 dark:bg-slate-900 dark:text-slate-100 dark:placeholder:text-slate-500
             [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
         />
       </div>
