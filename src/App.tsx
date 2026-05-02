@@ -61,6 +61,15 @@ export default function App() {
             >
               GitHub
             </a>
+            {' · '}
+            <a
+              href="https://github.com/hirekarl/technical_assessment_2026_05_02"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline hover:text-slate-600 dark:hover:text-slate-300"
+            >
+              Source
+            </a>
           </p>
           <p>
             <a
